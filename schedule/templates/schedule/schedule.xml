@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<schedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://c3voc.de/schedule/schema.xsd">
+    <version>2023:05-06 12:32</version>
+    <conference>
+        <acronym>{{ event.acronym }}</acronym>
+        <title>{{ event.name }}</title>
+        <start>{{ event.start | date:"Y-m-d" }}</start>
+        <end>{{ event.last_day | date:"Y-m-d" }}</end>
+        <days>{{ event.duration_days }}</days>
+        <timeslot_duration>00:15</timeslot_duration>
+        <time_zone_name>Europe/Berlin</time_zone_name>
+    </conference>
+{% for day in schedule.values %}
+    <day index="{{ day.day }}" date="{{ day.start | date:"Y-m-d"}}" start="{{ day.start | date:"Y-m-d"}}T03:00:00+02:00" end="{{ day.end | date:"Y-m-d"}}T02:59:59+02:00">
+{% for room in day.rooms.values %}
+        <room name="{{ room.name }}" guid="{{ room.uuid }}">
+{% for item in room.events %}
+            <event id="{{ item.id }}" guid="{{ item.uuid }}">
+                <room>{{ room.name }}</room>
+                <title>{{ item.title }}</title>
+                <subtitle />
+                <type />
+                <date>{{ item.start | date:"c" }}</date>
+                <start>{{ item.start | date:"H:i" }}</start>
+                <duration>{{ item.duration_hhmm }}</duration>
+                <abstract>{{ item.abstract }}</abstract>
+                <slug>{{ item.full_slug }}</slug>
+                <track />
+                <persons>
+{% for person in item.persons.all %}
+                    <person id="{{ person.id }}">{{ person.name }}</person>
+{% endfor %}
+                </persons>
+                <language>{{ item.language.short }}</language>
+                <description />
+                <recording>
+                    <license>{{ event.license }}</license>
+                    <optout>{{ item.recording_optout | lower }}</optout>
+                </recording>
+            </event>
+{% endfor %}
+        </room>
+{% endfor %}
+    </day>
+{% endfor %}
+</schedule>
