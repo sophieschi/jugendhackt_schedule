@@ -1,5 +1,5 @@
+import uuid
 from datetime import timedelta
-from uuid import UUID
 
 from django.db import models
 
@@ -41,7 +41,6 @@ class Event(models.Model):
 
 class Person(models.Model):
     name = models.CharField(max_length=200)
-    optout = models.BooleanField("Recording.Optout")
 
     class Meta:
         ordering = ["name"]
@@ -53,8 +52,8 @@ class Person(models.Model):
 class Room(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    optout = models.BooleanField("Recording.Optout")
-    uuid = models.CharField("`uuidgen`", max_length=40, unique=True)
+    has_recording = models.BooleanField("This room will be recorded and streamed")
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
         ordering = ["event", "name"]
@@ -69,10 +68,10 @@ class ScheduleEntry(models.Model):
     duration_minutes = models.IntegerField("Duration (minutes)")
     title = models.CharField(max_length=200)
     abstract = models.TextField(blank=True)
-    optout = models.BooleanField("This event will not be recorded")
+    do_record = models.BooleanField("This event will be recorded and streamed")
     persons = models.ManyToManyField(Person)
     slug = models.SlugField()
-    uuid = models.CharField("`uuidgen`", max_length=40, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     language = models.ForeignKey(Language, on_delete=models.RESTRICT)
 
     @property

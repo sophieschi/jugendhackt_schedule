@@ -10,12 +10,12 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ["name", "optout"]
+    list_display = ["name"]
 
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ["name", "event", "optout"]
+    list_display = ["name", "event", "has_recording"]
 
 
 @admin.register(ScheduleEntry)
