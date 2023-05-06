@@ -52,7 +52,7 @@ class Person(models.Model):
 class Room(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    has_recording = models.BooleanField("This room will be recorded and streamed")
+    has_recording = models.BooleanField("This room will be recorded and streamed", default=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
@@ -68,7 +68,7 @@ class ScheduleEntry(models.Model):
     duration_minutes = models.IntegerField("Duration (minutes)")
     title = models.CharField(max_length=200)
     abstract = models.TextField(blank=True)
-    do_record = models.BooleanField("This event will be recorded and streamed")
+    do_record = models.BooleanField("This event will be recorded and streamed", default=True)
     persons = models.ManyToManyField(Person)
     slug = models.SlugField()
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
