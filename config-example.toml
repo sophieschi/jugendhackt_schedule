@@ -2,6 +2,7 @@ django_secret = "django-insecure-foobarbaz"
 django_debug = true
 allowed_hosts = []
 timezone = "Europe/Berlin"
+static_root = "static/"
 
 [database]
 ENGINE = "django.db.backends.sqlite3"
