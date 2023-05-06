@@ -10,22 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from os import getenv
 from pathlib import Path
+
+from rtoml import load as toml_load
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+with open(getenv("CONFIG_PATH", BASE_DIR / "config.toml")) as f:
+    LOCAL_CONFIG = toml_load(f)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-&7647u2%euiuxwr2szyu888w6k7b()o@5oeccx9eg8d&x(_u_k"
+SECRET_KEY = LOCAL_CONFIG["django_secret"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = LOCAL_CONFIG["django_debug"]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = LOCAL_CONFIG["allowed_hosts"]
 
 
 # Application definition
@@ -75,10 +80,7 @@ WSGI_APPLICATION = "jugendhackt_tools.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": LOCAL_CONFIG["database"],
 }
 
 
@@ -106,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = LOCAL_CONFIG["timezone"]
 
 USE_I18N = True
 
