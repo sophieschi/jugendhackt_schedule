@@ -91,7 +91,7 @@ class ScheduleEntry(models.Model):
         return f"{self.room.event.acronym}-{self.id}-{self.slug}"
 
     class Meta:
-        ordering = ["start"]
+        ordering = ["-start"]
 
     def __str__(self):
         return self.full_slug
