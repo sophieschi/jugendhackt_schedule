@@ -32,6 +32,8 @@ DEBUG = LOCAL_CONFIG["django_debug"]
 
 ALLOWED_HOSTS = LOCAL_CONFIG["allowed_hosts"]
 
+STATIC_ROOT = LOCAL_CONFIG['static_root']
+
 
 # Application definition
 
