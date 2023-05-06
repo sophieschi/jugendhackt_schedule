@@ -84,7 +84,7 @@ class ScheduleEntry(models.Model):
 
     @property
     def recording_optout(self):
-        return self.optout or self.room.optout
+        return not (self.do_record and self.room.has_recording)
 
     @property
     def full_slug(self):
