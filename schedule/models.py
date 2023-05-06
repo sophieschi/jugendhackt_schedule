@@ -8,7 +8,7 @@ from .utils import validate_acronym
 
 class Language(models.Model):
     name = models.CharField(max_length=200)
-    short = models.CharField(max_length=10)
+    short = models.CharField("short code", max_length=10)
 
     def __str__(self):
         return self.name
@@ -25,7 +25,7 @@ class Event(models.Model):
     name = models.CharField(max_length=200)
     acronym = models.CharField(max_length=50, validators=[validate_acronym])
     start = models.DateField()
-    duration_days = models.IntegerField()
+    duration_days = models.IntegerField("Duration (days)")
     license = models.ForeignKey(License, on_delete=models.RESTRICT)
 
     @property
@@ -66,7 +66,7 @@ class Room(models.Model):
 class ScheduleEntry(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     start = models.DateTimeField()
-    duration_minutes = models.IntegerField()
+    duration_minutes = models.IntegerField("Duration (minutes)")
     title = models.CharField(max_length=200)
     abstract = models.TextField(blank=True)
     optout = models.BooleanField("This event will not be recorded")

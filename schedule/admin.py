@@ -5,7 +5,7 @@ from .models import Event, Language, License, Person, Room, ScheduleEntry
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ["name", "acronym", "start"]
+    list_display = ["name", "acronym", "start", "last_day"]
 
 
 @admin.register(Person)
