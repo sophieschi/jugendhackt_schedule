@@ -98,54 +98,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name="ScheduleEntry",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("start", models.DateTimeField()),
-                ("duration_minutes", models.IntegerField()),
-                ("title", models.CharField(max_length=200)),
-                ("abstract", models.TextField(blank=True)),
-                (
-                    "optout",
-                    models.BooleanField(verbose_name="This event will not be recorded"),
-                ),
-                ("persons", models.ManyToManyField(to="schedule.persons")),
-                (
-                    "room",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="schedule.scheduleroom",
-                    ),
-                ),
-                ("slug", models.SlugField(default="foo")),
-                (
-                    "uuid",
-                    models.CharField(
-                        max_length=40, unique=True, verbose_name="`uuidgen`"
-                    ),
-                ),
-                (
-                    "language",
-                    models.ForeignKey(
-                        default=1,
-                        on_delete=django.db.models.deletion.RESTRICT,
-                        to="schedule.language",
-                    ),
-                ),
-            ],
-            options={
-                "ordering": ["start"],
-            },
-        ),
-        migrations.CreateModel(
             name="Room",
             fields=[
                 (
@@ -174,6 +126,54 @@ class Migration(migrations.Migration):
             ],
             options={
                 "ordering": ["event", "name"],
+            },
+        ),
+        migrations.CreateModel(
+            name="ScheduleEntry",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("start", models.DateTimeField()),
+                ("duration_minutes", models.IntegerField()),
+                ("title", models.CharField(max_length=200)),
+                ("abstract", models.TextField(blank=True)),
+                (
+                    "optout",
+                    models.BooleanField(verbose_name="This event will not be recorded"),
+                ),
+                ("persons", models.ManyToManyField(to="schedule.person")),
+                (
+                    "room",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="schedule.room",
+                    ),
+                ),
+                ("slug", models.SlugField(default="foo")),
+                (
+                    "uuid",
+                    models.CharField(
+                        max_length=40, unique=True, verbose_name="`uuidgen`"
+                    ),
+                ),
+                (
+                    "language",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.RESTRICT,
+                        to="schedule.language",
+                    ),
+                ),
+            ],
+            options={
+                "ordering": ["start"],
             },
         ),
     ]
