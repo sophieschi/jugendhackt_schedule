@@ -22,8 +22,8 @@ class License(models.Model):
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=200)
-    acronym = models.CharField(max_length=50, validators=[validate_acronym])
+    name = models.CharField(max_length=200, unique=True)
+    acronym = models.CharField(max_length=50, validators=[validate_acronym], unique=True)
     start = models.DateField()
     duration_days = models.IntegerField("Duration (days)")
     license = models.ForeignKey(License, on_delete=models.RESTRICT)
@@ -40,7 +40,7 @@ class Event(models.Model):
 
 
 class Person(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
 
     class Meta:
         ordering = ["name"]
