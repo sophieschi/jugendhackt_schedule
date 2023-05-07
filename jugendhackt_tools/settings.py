@@ -32,7 +32,13 @@ DEBUG = LOCAL_CONFIG["django_debug"]
 
 ALLOWED_HOSTS = LOCAL_CONFIG["allowed_hosts"]
 
-STATIC_ROOT = LOCAL_CONFIG['static_root']
+if DEBUG:
+    STATICFILES_DIRS = [
+        LOCAL_CONFIG["static_root"],
+    ]
+else:
+    STATIC_ROOT = LOCAL_CONFIG["static_root"]
+STATIC_URL = "/static/"
 
 
 # Application definition
