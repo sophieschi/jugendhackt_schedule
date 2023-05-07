@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ event.name }}</h1>
+
+{% for _, day in schedule.items %}
+{% if day.events %}
+    <h2>{{ day.start | date:"d.m." }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Wann</th>
+                <th scope="col">Was</th>
+                <th scope="col">Wo</th>
+                <th scope="col">Wer</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for event in day.events %}
+            <tr>
+                <td>{{ event.start | date:"H:i" }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.room.name }}</td>
+                <td>
+                    <ul>
+{% for person in event.persons.all %}
+                        <li>{{ person.name }}</li>
+{% endfor %}
+                    </ul>
+                </td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endfor %}
+{% endblock %}

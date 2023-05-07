@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+    <table border=1>
+        <thead>
+            <tr>
+                <th scope="col">Event</th>
+                <th scope="col">Start</th>
+                <th scope="col">End</th>
+
+                <th scope="col" colspan=2>Export</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for event in events %}
+            <tr>
+                <th scope="row">{{ event.name }}</th>
+                <td>{{ event.start | date:"d.m.Y" }}</td>
+                <td>{{ event.last_day | date:"d.m.Y" }}</td>
+
+                <td><a href="{% url 'schedule_html' event.acronym %}">HTML</a></td>
+                <td><a href="{% url 'schedule_xml' event.acronym %}">XML</a></td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
