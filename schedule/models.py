@@ -23,7 +23,9 @@ class License(models.Model):
 
 class Event(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    acronym = models.CharField(max_length=50, validators=[validate_acronym], unique=True)
+    acronym = models.CharField(
+        max_length=50, validators=[validate_acronym], unique=True
+    )
     start = models.DateField()
     duration_days = models.IntegerField("Duration (days)")
     license = models.ForeignKey(License, on_delete=models.RESTRICT)
@@ -52,7 +54,9 @@ class Person(models.Model):
 class Room(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    has_recording = models.BooleanField("This room will be recorded and streamed", default=True)
+    has_recording = models.BooleanField(
+        "This room will be recorded and streamed", default=True
+    )
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
@@ -68,7 +72,9 @@ class ScheduleEntry(models.Model):
     duration_minutes = models.IntegerField("Duration (minutes)")
     title = models.CharField(max_length=200)
     abstract = models.TextField(blank=True)
-    do_record = models.BooleanField("This event will be recorded and streamed", default=True)
+    do_record = models.BooleanField(
+        "This event will be recorded and streamed", default=True
+    )
     persons = models.ManyToManyField(Person)
     slug = models.SlugField()
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -76,7 +82,9 @@ class ScheduleEntry(models.Model):
 
     @property
     def duration_hhmm(self):
-        return f"{int(self.duration_minutes/60)}:{self.duration_minutes%60}"
+        return (
+            f"{int(self.duration_minutes/60)}:{str(self.duration_minutes%60).zfill(2)}"
+        )
 
     @property
     def end(self):
